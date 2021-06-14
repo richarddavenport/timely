@@ -1,0 +1,12 @@
+{
+  "name": "timely",
+  "displayName": "timely",
+  "expo": {
+    "name": "timely",
+    "slug": "timely",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
