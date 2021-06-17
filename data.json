@@ -1,0 +1,34 @@
+{
+    "meets": {
+        "1": {
+            "code": "FYMB",
+            "name": "Lasers vs Cruisers",
+            "teams": {
+                "1": "Lasers",
+                "2": "Cruisers"
+            },
+            "location": "4105 NW Lake Dr., Lee's Summit MO 64064",
+            "date": 20210609,
+            "events": {
+                "1": {
+                    "name": "25m Freestyle",
+                    "ages": "Girls 9-10",
+                    "heats": {
+                        "1": {
+                            
+                            "swimmers": {
+                                "1": {
+                                    "name": "Jorie",
+                                    "age": 9,
+                                    "time": 18.77,
+                                    "lane": 1,
+                                    "seedTime": 22.62
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
