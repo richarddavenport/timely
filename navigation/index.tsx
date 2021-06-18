@@ -3,6 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DarkTheme,
   DefaultTheme,
@@ -10,6 +11,7 @@ import {
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { ColorSchemeName } from "react-native";
 import { View, Text } from "../components/Themed";
 import HomeScreen from "../screens/HomeScreen";
@@ -45,8 +47,25 @@ function DetailsScreen() {
 export const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+  const [initialRoute, setInitialRoute] =
+    useState<keyof RootStackParamList | undefined>(undefined);
+
+  const readItemFromStorage = async () => {
+    const item = (await AsyncStorage.getItem("meet_data")) as
+      | keyof RootStackParamList
+      | undefined;
+    setInitialRoute(item);
+  };
+
+  useEffect(() => {
+    readItemFromStorage();
+  }, []);
+
+  return initialRoute ? (
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName={initialRoute}
+    >
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Details" component={DetailsScreen} />
       <Stack.Screen
@@ -55,5 +74,7 @@ function RootNavigator() {
         options={{ title: "Oops!" }}
       />
     </Stack.Navigator>
+  ) : (
+    <View></View>
   );
 }

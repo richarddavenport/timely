@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp } from "@react-navigation/native";
 import * as React from "react";
 import { Vibration } from "react-native";
@@ -8,9 +9,14 @@ export default function HomeScreen({
 }: {
   navigation: NavigationProp<any>;
 }) {
-  const onScan = (data: string) => {
-    Vibration.vibrate();
-    navigation.navigate("Details");
+  const onScan = async (data: string) => {
+    try {
+      await AsyncStorage.setItem("meet_data", data);
+      Vibration.vibrate();
+      navigation.navigate("Details");
+    } catch (e) {
+      alert("Unable to save QR Code data!");
+    }
   };
 
   return <MeetScanner onScan={onScan}></MeetScanner>;
