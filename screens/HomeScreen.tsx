@@ -3,6 +3,7 @@ import { NavigationProp } from "@react-navigation/native";
 import * as React from "react";
 import { Vibration } from "react-native";
 import MeetScanner from "../components/MeetScanner";
+import { Text, View } from "../components/Themed";
 
 export default function HomeScreen({
   navigation,
@@ -20,4 +21,12 @@ export default function HomeScreen({
   };
 
   return <MeetScanner onScan={onScan}></MeetScanner>;
+}
+
+export function DetailsScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Details Screen</Text>
+    </View>
+  );
 }

@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "timely_team",
     "name": "timely",
     "slug": "timely",
     "version": "1.0.0",

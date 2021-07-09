@@ -1,0 +1,37 @@
+# source database URL
+# database URLs take the format of:
+#   postgres://user:password@host:port/dbname
+#
+# we recommend a command which outputs a database URL
+# so sensitive information is not included in this file
+#
+# we *highly recommend* you use sslmode=verify-full when possible
+# see https://ankane.org/postgres-sslmode-explained for more info
+# from: postgres://sceinuzokeeddi:13cbc3e697ff04ade1dc7884212c63495fb358a1783f0b20b72ab24ba9a06f50@ec2-54-145-224-156.compute-1.amazonaws.com:5432/dbh4javlipmnkj?sslmode=allow&connect_timeout=60
+
+# destination database URL
+from: postgres://postgres:Strudel5-Poplar-Numerate@198.211.96.24:5432/postgres?sslmode=disable&connect_timeout=60
+to: postgres://su:supassword@localhost:50240/postgres?sslmode=disable&connect_timeout=60
+
+# exclude tables
+# exclude:
+#   - table1
+#   - table2
+
+# define groups
+# groups:
+#   group1:
+#     - table1
+#     - table2
+
+# sync specific schemas
+# schemas:
+#   - public
+
+# protect sensitive information
+# data_rules:
+#   email: unique_email
+#   phone: unique_phone
+#   last_name: random_letter
+#   birthday: random_date
+#   encrypted_*: null
