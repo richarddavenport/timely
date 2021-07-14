@@ -1,30 +1,37 @@
-import {
-  BarCodeScannedCallback,
-  BarCodeScanner,
-  PermissionStatus,
-} from "expo-barcode-scanner";
+import { BarCodeScannedCallback, BarCodeScanner } from "expo-barcode-scanner";
+import { Camera, PermissionStatus } from "expo-camera";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
+import { JobScan } from "../types";
 import { Text, View } from "./Themed";
 
 export default function MeetScanner({
   onScan,
 }: {
-  onScan: (data: string) => any;
+  onScan: (data: JobScan) => any;
 }) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  // This is to prevent multiple scans
   const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === PermissionStatus.GRANTED);
     })();
   }, []);
 
   const handleBarCodeScanned: BarCodeScannedCallback = ({ type, data }) => {
-    setScanned(true);
-    onScan(data);
+    try {
+      setScanned(true);
+      const scan: JobScan = JSON.parse(data);
+      console.log(scan);
+      onScan(scan);
+    } catch (error) {
+      alert(`Unable to scan QR Code!`);
+      console.log(error);
+      setScanned(false);
+    }
   };
 
   if (hasPermission === null) {
@@ -41,20 +48,16 @@ export default function MeetScanner({
       </View>
     );
   }
-  if (scanned) {
-    return (
-      <View style={styles.container}>
-        <Text>Already scanned</Text>
-      </View>
-    );
-  }
 
   return (
-    <BarCodeScanner
-      barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+    <Camera
+      barCodeScannerSettings={{
+        barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+      }}
       onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-      style={StyleSheet.absoluteFillObject}
-    />
+      style={[StyleSheet.absoluteFillObject]}
+      ratio="16:9"
+    ></Camera>
   );
 }
 
@@ -63,10 +66,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  barCodeView: {
-    width: "80%",
-    height: "50%",
-    marginBottom: 40,
   },
 });

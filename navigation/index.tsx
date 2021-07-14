@@ -7,16 +7,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DarkTheme,
   DefaultTheme,
-  NavigationContainer,
+  NavigationContainer
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { ColorSchemeName } from "react-native";
-import { View } from "../components/Themed";
-import HomeScreen, { DetailsScreen } from "../screens/HomeScreen";
+import Job from "../constants/Job";
+import Storage from "../constants/Storage";
+import HomeScreen from "../screens/HomeScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
-import { RootStackParamList } from "../types";
+import TimerScreen from "../screens/TimerScreen";
+import { JobScan, RootStackParamList } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({
@@ -39,14 +41,25 @@ export default function Navigation({
 export const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const [initialRoute, setInitialRoute] =
-    useState<keyof RootStackParamList | undefined>(undefined);
+  const [initialRoute, setInitialRoute] = useState<
+    keyof RootStackParamList | undefined
+  >(undefined);
 
   const readItemFromStorage = async () => {
-    const item = (await AsyncStorage.getItem("meet_data")) as
-      | keyof RootStackParamList
-      | undefined;
-    setInitialRoute(item || "Home");
+    const item = await AsyncStorage.getItem(Storage.JOB_SCAN);
+    if (!item) {
+      setInitialRoute("Home");
+      return;
+    }
+    const jobScan: JobScan = JSON.parse(item);
+    switch (jobScan.job) {
+      case Job.timer:
+        setInitialRoute("Timer");
+        break;
+      default:
+        setInitialRoute("Home");
+        break;
+    }
   };
 
   useEffect(() => {
@@ -59,7 +72,7 @@ function RootNavigator() {
       initialRouteName={initialRoute}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Details" component={DetailsScreen} />
+      <Stack.Screen name="Timer" component={TimerScreen} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}

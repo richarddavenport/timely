@@ -3,9 +3,11 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
+import Job from "./constants/Job";
+
 export type RootStackParamList = {
   Home: undefined;
-  Details: undefined;
+  Timer: undefined;
   NotFound: undefined;
 };
 
@@ -22,3 +24,8 @@ export type TabOneParamList = {
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };
+
+export interface JobScan {
+  meetId: string;
+  job: Job;
+}

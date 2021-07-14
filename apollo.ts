@@ -9,7 +9,7 @@ const makeApolloClient = () => {
 
   // create an apollo link instance, a network interface for apollo client
   const link = new HttpLink({
-    uri: `https://legal-aardvark-83.hasura.app/v1/graphql`,
+    uri: `http://198.211.96.24/v1/graphql`,
     // headers: {
     //   Authorization: `Bearer ${token}`
     // }
